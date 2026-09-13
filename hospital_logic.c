@@ -27,3 +27,9 @@ const int WARD_CAPACITIES[4]   = {20, 10, 10, 5};
 int calculateWaitingTime(int specialtyIndex) {
     return specialtyQueueCounts[specialtyIndex] * AVG_TIMES[specialtyIndex];
 }
+
+double calculateSurcharge(double baseFee, int urgency) {
+    if (urgency == 2) return baseFee * 0.20;
+    if (urgency == 3) return baseFee * 0.50;
+    return 0.0;
+}

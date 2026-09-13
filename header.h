@@ -31,5 +31,6 @@ extern const double WARD_RATES[4];
 extern const int WARD_CAPACITIES[4];
 
 int calculateWaitingTime(int specialtyIndex);
+double calculateSurcharge(double baseFee, int urgency);
 
 #endif
