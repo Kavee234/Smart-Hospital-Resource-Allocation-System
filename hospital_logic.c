@@ -38,3 +38,8 @@ double calculateWardCost(int admitted, int wardIndex, int days) {
     if (!admitted) return 0.0;
     return days * WARD_RATES[wardIndex];
 }
+
+double calculateDiscount(double grossTotal, int age) {
+    if (age < 5 || age > 65) return grossTotal * 0.15;
+    return 0.0;
+}
