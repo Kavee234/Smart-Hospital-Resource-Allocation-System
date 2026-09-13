@@ -30,4 +30,6 @@ extern const char *WARD_NAMES[4];
 extern const double WARD_RATES[4];
 extern const int WARD_CAPACITIES[4];
 
+int calculateWaitingTime(int specialtyIndex);
+
 #endif

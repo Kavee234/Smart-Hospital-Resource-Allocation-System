@@ -23,3 +23,7 @@ const int DAILY_CAPS[4]        = {30, 20, 12, 10};
 const char *WARD_NAMES[4]      = {"General Ward", "Paediatric Ward", "Surgical Ward", "ICU"};
 const double WARD_RATES[4]     = {3000.00, 6000.00, 12000.00, 25000.00};
 const int WARD_CAPACITIES[4]   = {20, 10, 10, 5};
+
+int calculateWaitingTime(int specialtyIndex) {
+    return specialtyQueueCounts[specialtyIndex] * AVG_TIMES[specialtyIndex];
+}
