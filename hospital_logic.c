@@ -14,3 +14,12 @@ double finalPayables[MAX_PATIENTS];
 
 int totalPatients = 0;
 int specialtyQueueCounts[4] = {0};
+
+const char *SPECIALTY_NAMES[4] = {"General Practice (OPD)", "Paediatrics", "Cardiology", "Neurology"};
+const double BASE_FEES[4]      = {1500.00, 2500.00, 4500.00, 5000.00};
+const int AVG_TIMES[4]         = {15, 20, 30, 30};
+const int DAILY_CAPS[4]        = {30, 20, 12, 10};
+
+const char *WARD_NAMES[4]      = {"General Ward", "Paediatric Ward", "Surgical Ward", "ICU"};
+const double WARD_RATES[4]     = {3000.00, 6000.00, 12000.00, 25000.00};
+const int WARD_CAPACITIES[4]   = {20, 10, 10, 5};

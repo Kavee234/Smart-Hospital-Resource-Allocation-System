@@ -21,4 +21,13 @@ extern double finalPayables[MAX_PATIENTS];
 extern int totalPatients;
 extern int specialtyQueueCounts[4];
 
+extern const char *SPECIALTY_NAMES[4];
+extern const double BASE_FEES[4];
+extern const int AVG_TIMES[4];
+extern const int DAILY_CAPS[4];
+
+extern const char *WARD_NAMES[4];
+extern const double WARD_RATES[4];
+extern const int WARD_CAPACITIES[4];
+
 #endif
