@@ -32,5 +32,6 @@ extern const int WARD_CAPACITIES[4];
 
 int calculateWaitingTime(int specialtyIndex);
 double calculateSurcharge(double baseFee, int urgency);
+double calculateWardCost(int admitted, int wardIndex, int days);
 
 #endif

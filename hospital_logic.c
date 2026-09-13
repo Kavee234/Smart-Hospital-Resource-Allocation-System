@@ -33,3 +33,8 @@ double calculateSurcharge(double baseFee, int urgency) {
     if (urgency == 3) return baseFee * 0.50;
     return 0.0;
 }
+
+double calculateWardCost(int admitted, int wardIndex, int days) {
+    if (!admitted) return 0.0;
+    return days * WARD_RATES[wardIndex];
+}
