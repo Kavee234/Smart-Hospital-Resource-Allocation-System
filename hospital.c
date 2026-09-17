@@ -11,3 +11,17 @@ const int DAILY_CAPS[NUM_SPECIALTIES] = {30, 20, 12, 10};
 const char WARD_NAMES[NUM_WARDS][30] = {"General Ward", "Paediatric Ward", "Surgical Ward", "ICU"};
 const double WARD_RATES[NUM_WARDS] = {3000.00, 6000.00, 12000.00, 25000.00};
 const int WARD_CAPACITIES[NUM_WARDS] = {20, 10, 10, 5};
+
+void clearScreen(void) {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void pauseScreen(void) {
+    printf("\nPress Enter to continue...");
+    getchar();
+    getchar();
+}
