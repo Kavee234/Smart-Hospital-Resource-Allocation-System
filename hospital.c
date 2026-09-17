@@ -25,3 +25,14 @@ void pauseScreen(void) {
     getchar();
     getchar();
 }
+
+void initializeSystem(int bedOccupancy[NUM_WARDS][20], int queueCounts[NUM_SPECIALTIES]) {
+    for (int i = 0; i < NUM_WARDS; i++) {
+        for (int j = 0; j < 20; j++) {
+            bedOccupancy[i][j] = 0;
+        }
+    }
+    for (int i = 0; i < NUM_SPECIALTIES; i++) {
+        queueCounts[i] = 0;
+    }
+}
