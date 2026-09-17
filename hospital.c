@@ -96,3 +96,8 @@ void registerPatient(char names[][50], int ages[], int urgencies[], int specIDs[
         wardIDs[idx] = 0;
         daysAdmitted[idx] = 0;
     }
+
+int sIdx = specIDs[idx] - 1;
+    double baseFee = BASE_FEES[sIdx];
+    double surchargeRate = (urgencies[idx] == 1) ? 0.0 : (urgencies[idx] == 2) ? 0.20 : 0.50;
+    double surcharge = baseFee * surchargeRate;
