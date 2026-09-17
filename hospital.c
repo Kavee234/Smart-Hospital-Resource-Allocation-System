@@ -101,3 +101,6 @@ int sIdx = specIDs[idx] - 1;
     double baseFee = BASE_FEES[sIdx];
     double surchargeRate = (urgencies[idx] == 1) ? 0.0 : (urgencies[idx] == 2) ? 0.20 : 0.50;
     double surcharge = baseFee * surchargeRate;
+
+    double wardCost = (wardAdmitted[idx] == 1) ? (daysAdmitted[idx] * WARD_RATES[wardIDs[idx] - 1]) : 0.0;
+    double gross = baseFee + surcharge + wardCost;
