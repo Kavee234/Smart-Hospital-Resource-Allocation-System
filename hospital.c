@@ -150,3 +150,30 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         printf("===================================================\n");
     }
 }
+
+void displayTriageList(char names[][50], int urgencies[], int patientCount) {
+    if (patientCount == 0) {
+        printf("No registered patients available.\n");
+        return;
+    }
+    int indices[MAX_PATIENTS];
+    for (int i = 0; i < patientCount; i++) indices[i] = i;
+
+    for (int i = 0; i < patientCount - 1; i++) {
+        for (int j = 0; j < patientCount - i - 1; j++) {
+            if (urgencies[indices[j]] < urgencies[indices[j + 1]]) {
+                int temp = indices[j];
+                indices[j] = indices[j + 1];
+                indices[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n=============================================================\n");
+    printf("----------      Emergency Triage Sorting List      ----------\n");
+    printf("=============================================================\n");
+    for (int i = 0; i < patientCount; i++) {
+        int idx = indices[i];
+        printf("Priority %-21d | Name: %s | Urgency Level: %d\n", i + 1, names[idx], urgencies[idx]);
+    }
+}
