@@ -212,3 +212,26 @@ void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[
         printf("- %s: %.2f%% (%d/%d beds)\n", WARD_NAMES[w], rate, occupied, WARD_CAPACITIES[w]);
     }
 }
+
+void saveBedStatusToFile(int bedOccupancy[NUM_WARDS][20]) {
+    FILE *fp = fopen("beds_status.txt", "w");
+    if (!fp) return;
+    for (int i = 0; i < NUM_WARDS; i++) {
+        for (int j = 0; j < WARD_CAPACITIES[i]; j++) {
+            fprintf(fp, "%d ", bedOccupancy[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+    fclose(fp);
+}
+
+void loadBedStatusFromFile(int bedOccupancy[NUM_WARDS][20]) {
+    FILE *fp = fopen("beds_status.txt", "r");
+    if (!fp) return;
+    for (int i = 0; i < NUM_WARDS; i++) {
+        for (int j = 0; j < WARD_CAPACITIES[i]; j++) {
+            if (fscanf(fp, "%d", &bedOccupancy[i][j]) != 1) break;
+        }
+    }
+    fclose(fp);
+}
