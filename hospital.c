@@ -144,9 +144,9 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         printf("Age                      : %d Years %s\n", ages[i], (ages[i] < 5 || ages[i] > 65) ? "(15% Subsidy Eligible)" : "");
         printf("Specialty                : %s\n", SPECIALTY_NAMES[sIdx]);
         if (wardAdmitted[i] == 1) {
-            printf("Assigned Ward          : %s (Bed #%02d)\n", WARD_NAMES[wardIDs[i] - 1], i + 1);
+            printf("Assigned Ward            : %s (Bed #%02d)\n", WARD_NAMES[wardIDs[i] - 1], i + 1);
         } else {
-            printf("Assigned Ward          : Outpatient (OPD)\n");
+            printf("Assigned Ward            : Outpatient (OPD)\n");
         }
         if (urgencies[i] == 1)      printf("Urgency Level            : Level 1 (Normal)\n");
         else if (urgencies[i] == 2) printf("Urgency Level            : Level 2 (Urgent)\n");
@@ -154,7 +154,7 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         printf("-----------------------------------------------------------\n");
         printf("Base Consultation Fee    : LKR %.2f\n", baseFee);
         printf("Emergency Surcharge      : LKR %.2f (%d%%)\n", surcharge, surchargePct);
-        printf("Ward Stay Cost (%d Days) : LKR %.2f\n",daysAdmitted[i], wardCost);
+        printf("Ward Stay Cost (%2d Days) : LKR %.2f\n",daysAdmitted[i], wardCost);
         printf("-----------------------------------------------------------\n");
         printf("Gross Total Bill         : LKR %.2f\n", gross);
         printf("Age Subsidy Discount     : LKR -%.2f\n", discount);
@@ -193,9 +193,9 @@ void displayTriageList(char names[][50], int urgencies[], int patientCount) {
 }
 
 void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[NUM_WARDS][20], int patientCount) {
-    printf("\n================================================================\n");
-    printf("--------     System Performance Reports & Analytics     --------\n");
-    printf("================================================================\n");
+    printf("\n====================================================================\n");
+    printf("--------       System Performance Reports & Analytics       --------\n");
+    printf("====================================================================\n");
     int l1 = 0, l2 = 0, l3 = 0;
     double totalRevenue = 0.0;
     int highestIdx = 0;
@@ -213,7 +213,7 @@ void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[
     printf("Total Revenue Earned       : LKR %.2f\n", totalRevenue);
 
     if (patientCount > 0) {
-        printf("Highest Paying Patient : PAT-%d (LKR %.2f)\n", 1001 + highestIdx, finalPayables[highestIdx]);
+        printf("Highest Paying Patient     : PAT-%d (LKR %.2f)\n", 1001 + highestIdx, finalPayables[highestIdx]);
     }
 
     printf("\nBed Occupancy Rates        :\n");
