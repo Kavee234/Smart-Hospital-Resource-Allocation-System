@@ -177,3 +177,38 @@ void displayTriageList(char names[][50], int urgencies[], int patientCount) {
         printf("Priority %-21d | Name: %s | Urgency Level: %d\n", i + 1, names[idx], urgencies[idx]);
     }
 }
+
+void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[NUM_WARDS][20], int patientCount) {
+    printf("\n================================================================\n");
+    printf("--------     System Performance Reports & Analytics     --------\n");
+    printf("================================================================\n");
+    int l1 = 0, l2 = 0, l3 = 0;
+    double totalRevenue = 0.0;
+    int highestIdx = 0;
+
+    for (int i = 0; i < patientCount; i++) {
+        if (urgencies[i] == 1) l1++;
+        else if (urgencies[i] == 2) l2++;
+        else if (urgencies[i] == 3) l3++;
+
+        totalRevenue += finalPayables[i];
+        if (finalPayables[i] > finalPayables[highestIdx]) highestIdx = i;
+    }
+
+    printf("Total Patients             : %d (Level 1: %d, Level 2: %d, Level 3: %d)\n", patientCount, l1, l2, l3);
+    printf("Total Revenue Earned       : LKR %.2f\n", totalRevenue);
+
+    if (patientCount > 0) {
+        printf("Highest Paying Patient : PAT-%d (LKR %.2f)\n", 1001 + highestIdx, finalPayables[highestIdx]);
+    }
+
+    printf("\nBed Occupancy Rates        :\n");
+    for (int w = 0; w < NUM_WARDS; w++) {
+        int occupied = 0;
+        for (int b = 0; b < WARD_CAPACITIES[w]; b++) {
+            if (bedOccupancy[w][b] == 1) occupied++;
+        }
+        double rate = ((double)occupied / WARD_CAPACITIES[w]) * 100.0;
+        printf("- %s: %.2f%% (%d/%d beds)\n", WARD_NAMES[w], rate, occupied, WARD_CAPACITIES[w]);
+    }
+}
