@@ -104,3 +104,9 @@ int sIdx = specIDs[idx] - 1;
 
     double wardCost = (wardAdmitted[idx] == 1) ? (daysAdmitted[idx] * WARD_RATES[wardIDs[idx] - 1]) : 0.0;
     double gross = baseFee + surcharge + wardCost;
+
+double discount = (ages[idx] < 5 || ages[idx] > 65) ? (gross * 0.15) : 0.0;
+    finalPayables[idx] = gross - discount;
+    queueCounts[sIdx]++;
+    (*patientCount)++;
+}
