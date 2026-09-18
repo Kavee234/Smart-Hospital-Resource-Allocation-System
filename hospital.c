@@ -125,6 +125,8 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         printf("No patients registered yet.\n");
         return;
     }
+    int runningQueue[NUM_SPECIALTIES] = {0};
+
     for (int i = 0; i < patientCount; i++) {
         int sIdx = specIDs[i] - 1;
         double baseFee = BASE_FEES[sIdx];
@@ -134,7 +136,8 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         double wardCost = (wardAdmitted[i] == 1) ? (daysAdmitted[i] * WARD_RATES[wardIDs[i] - 1]) : 0.0;
         double gross = baseFee + surcharge + wardCost;
         double discount = (ages[i] < 5 || ages[i] > 65) ? (gross * 0.15) : 0.0;
-        int waitTime = (urgencies[i] == 3) ? 0 : (queueCounts[sIdx] * CONSULT_TIMES[sIdx]);
+        double waitTime = runningQueue[sIdx] * CONSULT_TIMES[sIdx];
+        runningQueue[sIdx]++;
 
         printf("\n===========================================================\n");
         printf("              SMART HOSPITAL ADMISSION & BILL              \n");
@@ -160,7 +163,11 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         printf("Age Subsidy Discount     : LKR -%.2f\n", discount);
         printf("-----------------------------------------------------------\n");
         printf("Final Payable Amount     : LKR %.2f\n", finalPayables[i]);
-        printf("Estimated Wait Time      : %d mins\n", waitTime);
+        if (urgencies[i] == 3) {
+            printf("Estimated Waiting Time   : 0.00 mins (Immediate Attention)\n");
+        } else {
+            printf("Estimated Waiting Time   : %.2f mins\n", waitTime);
+        }
         printf("===========================================================\n");
     }
 }
