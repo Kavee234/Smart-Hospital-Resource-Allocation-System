@@ -109,6 +109,13 @@ double discount = (ages[idx] < 5 || ages[idx] > 65) ? (gross * 0.15) : 0.0;
     finalPayables[idx] = gross - discount;
     queueCounts[sIdx]++;
     (*patientCount)++;
+
+    FILE *fp = fopen("patient_records.txt", "a");
+    if (fp) {
+        fprintf(fp, "%s,%d,%d,%.2f\n", names[idx], ages[idx], urgencies[idx], finalPayables[idx]);
+        fclose(fp);
+    }
+    printf("\nPatient registered successfully!\n");
 }
 
 void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[],
@@ -121,6 +128,7 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
     for (int i = 0; i < patientCount; i++) {
         int sIdx = specIDs[i] - 1;
         double baseFee = BASE_FEES[sIdx];
+        int surchargePct = (urgencies[i] == 1) ? 0 : (urgencies[i] == 2) ? 20 : 50;
         double surchargeRate = (urgencies[i] == 1) ? 0.0 : (urgencies[i] == 2) ? 0.20 : 0.50;
         double surcharge = baseFee * surchargeRate;
         double wardCost = (wardAdmitted[i] == 1) ? (daysAdmitted[i] * WARD_RATES[wardIDs[i] - 1]) : 0.0;
@@ -128,26 +136,32 @@ void displayAllBills(char names[][50], int ages[], int urgencies[], int specIDs[
         double discount = (ages[i] < 5 || ages[i] > 65) ? (gross * 0.15) : 0.0;
         int waitTime = (urgencies[i] == 3) ? 0 : (queueCounts[sIdx] * CONSULT_TIMES[sIdx]);
 
-        printf("\n===================================================\n");
-        printf("          SMART HOSPITAL ADMISSION & BILL          \n");
-        printf("---------------------------------------------------\n");
-        printf("Patient ID             : PAT-%d\n", 1001 + i);
-        printf("Patient Name           : %s\n", names[i]);
-        printf("Age                    : %d Years %s\n", ages[i], (ages[i] < 5 || ages[i] > 65) ? "(15% Subsidy Eligible)" : "");
-        printf("Specialty              : %s\n", SPECIALTY_NAMES[sIdx]);
-        printf("Assigned Ward          : %s\n", (wardAdmitted[i] == 1) ? WARD_NAMES[wardIDs[i] - 1] : "Outpatient (OPD)");
-        printf("Urgency Level          : Level %d\n", urgencies[i]);
-        printf("---------------------------------------------------\n");
-        printf("Base Consultation Fee  : LKR %.2f\n", baseFee);
-        printf("Emergency Surcharge    : LKR %.2f\n", surcharge);
-        printf("Ward Stay Cost         : LKR %.2f\n", wardCost);
-        printf("---------------------------------------------------\n");
-        printf("Gross Total Bill       : LKR %.2f\n", gross);
-        printf("Age Subsidy Discount   : LKR -%.2f\n", discount);
-        printf("---------------------------------------------------\n");
-        printf("Final Payable Amount   : LKR %.2f\n", finalPayables[i]);
-        printf("Estimated Wait Time    : %d mins\n", waitTime);
-        printf("===================================================\n");
+        printf("\n===========================================================\n");
+        printf("              SMART HOSPITAL ADMISSION & BILL              \n");
+        printf("-----------------------------------------------------------\n");
+        printf("Patient ID               : PAT-%d\n", 1001 + i);
+        printf("Patient Name             : %s\n", names[i]);
+        printf("Age                      : %d Years %s\n", ages[i], (ages[i] < 5 || ages[i] > 65) ? "(15% Subsidy Eligible)" : "");
+        printf("Specialty                : %s\n", SPECIALTY_NAMES[sIdx]);
+        if (wardAdmitted[i] == 1) {
+            printf("Assigned Ward          : %s (Bed #%02d)\n", WARD_NAMES[wardIDs[i] - 1], i + 1);
+        } else {
+            printf("Assigned Ward          : Outpatient (OPD)\n");
+        }
+        if (urgencies[i] == 1)      printf("Urgency Level            : Level 1 (Normal)\n");
+        else if (urgencies[i] == 2) printf("Urgency Level            : Level 2 (Urgent)\n");
+        else if (urgencies[i] == 3) printf("Urgency Level            : Level 3 (Critical)\n");
+        printf("-----------------------------------------------------------\n");
+        printf("Base Consultation Fee    : LKR %.2f\n", baseFee);
+        printf("Emergency Surcharge      : LKR %.2f (%d%%)\n", surcharge, surchargePct);
+        printf("Ward Stay Cost (%d Days) : LKR %.2f\n",daysAdmitted[i], wardCost);
+        printf("-----------------------------------------------------------\n");
+        printf("Gross Total Bill         : LKR %.2f\n", gross);
+        printf("Age Subsidy Discount     : LKR -%.2f\n", discount);
+        printf("-----------------------------------------------------------\n");
+        printf("Final Payable Amount     : LKR %.2f\n", finalPayables[i]);
+        printf("Estimated Wait Time      : %d mins\n", waitTime);
+        printf("===========================================================\n");
     }
 }
 
@@ -174,7 +188,7 @@ void displayTriageList(char names[][50], int urgencies[], int patientCount) {
     printf("=============================================================\n");
     for (int i = 0; i < patientCount; i++) {
         int idx = indices[i];
-        printf("Priority %-21d | Name: %s | Urgency Level: %d\n", i + 1, names[idx], urgencies[idx]);
+        printf("Priority %d | Name: %-20s | Urgency Level: %d\n", i + 1, names[idx], urgencies[idx]);
     }
 }
 
@@ -236,9 +250,4 @@ void loadBedStatusFromFile(int bedOccupancy[NUM_WARDS][20]) {
     fclose(fp);
 }
 
-FILE *fp = fopen("patient_records.txt", "a");
-    if (fp) {
-        fprintf(fp, "%s,%d,%d,%.2f\n", names[idx], ages[idx], urgencies[idx], finalPayables[idx]);
-        fclose(fp);
-    }
-    printf("\nPatient registered successfully!\n");
+
