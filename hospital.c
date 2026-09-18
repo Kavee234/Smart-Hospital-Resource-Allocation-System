@@ -235,3 +235,10 @@ void loadBedStatusFromFile(int bedOccupancy[NUM_WARDS][20]) {
     }
     fclose(fp);
 }
+
+FILE *fp = fopen("patient_records.txt", "a");
+    if (fp) {
+        fprintf(fp, "%s,%d,%d,%.2f\n", names[idx], ages[idx], urgencies[idx], finalPayables[idx]);
+        fclose(fp);
+    }
+    printf("\nPatient registered successfully!\n");
