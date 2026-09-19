@@ -240,14 +240,14 @@ void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[
         printf("Highest Paying Patient     : PAT-%d (LKR %.2f)\n", 1001 + highestIdx, finalPayables[highestIdx]);
     }
 
-    printf("\nBed Occupancy Rates        :\n");
+    printf("\nBed Occupancy Rates\n");
     for (int w = 0; w < NUM_WARDS; w++) {
         int occupied = 0;
         for (int b = 0; b < WARD_CAPACITIES[w]; b++) {
             if (bedOccupancy[w][b] == 1) occupied++;
         }
         double rate = ((double)occupied / WARD_CAPACITIES[w]) * 100.0;
-        printf("- %s: %.2f%% (%d/%d beds)\n", WARD_NAMES[w], rate, occupied, WARD_CAPACITIES[w]);
+        printf("- %-16s: %.2f%% (%d/%d beds)\n", WARD_NAMES[w], rate, occupied, WARD_CAPACITIES[w]);
     }
 }
 
