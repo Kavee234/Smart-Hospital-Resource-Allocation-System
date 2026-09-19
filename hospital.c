@@ -75,22 +75,39 @@ void registerPatient(char names[][50], int ages[], int urgencies[], int specIDs[
     scanf("%d", &wardAdmitted[idx]);
 
     if (wardAdmitted[idx] == 1) {
-        printf("\n---   Wards List   ---\n");
-        printf(" General    = 1\n");
-        printf(" Paediatric = 2\n");
-        printf(" Surgical   = 3\n");
-        printf(" ICU        = 4\n");
-        printf("Enter Ward: ");
+        printf("\n---   Wards List & Remaining Capacity   ---\n");
+        for (int w = 0; w < NUM_WARDS; w++) {
+            int occupied = 0;
+            for (int b = 0; b < WARD_CAPACITIES[w]; b++) {
+                if (bedOccupancy[w][b] == 1) {
+                    occupied++;
+                }
+            }
+            int remaining = WARD_CAPACITIES[w] - occupied;
+            printf(" %-15s (%d) - %-2d Beds Available\n", WARD_NAMES[w], w + 1, remaining);
+        }
+
+        printf("Enter Ward (1-4)   : ");
         scanf("%d", &wardIDs[idx]);
         printf("Enter Days Admitted: ");
         scanf("%d", &daysAdmitted[idx]);
 
         int wIdx = wardIDs[idx] - 1;
+
+        int bedFound = 0;
         for (int b = 0; b < WARD_CAPACITIES[wIdx]; b++) {
             if (bedOccupancy[wIdx][b] == 0) {
                 bedOccupancy[wIdx][b] = 1;
+                bedFound = 1;
                 break;
             }
+        }
+
+        if (!bedFound) {
+            printf("\nWarning: Selected ward is completely full! Assigning to OPD mode.\n");
+            wardAdmitted[idx] = 0;
+            wardIDs[idx] = 0;
+            daysAdmitted[idx] = 0;
         }
     } else {
         wardIDs[idx] = 0;
