@@ -10,7 +10,7 @@ A modular, menu-driven C application designed for automated patient intake, bed 
 
 
 
-The **Smart Hospital \& Resource Allocation System** optimizes daily hospital operations using modular custom functions, lookup tables, and parallel array data structures\[cite: 1]. The system manages multi-specialty OPD queues, ward admissions, triage sorting, automated billing with subsidies/surcharges, dynamic bed occupancy tracking, persistent file logging, and analytics.
+The **Smart Hospital \& Resource Allocation System** optimizes daily hospital operations using modular custom functions, lookup tables, and parallel array data structures. The system manages multi-specialty OPD queues, ward admissions, triage sorting, automated billing with subsidies/surcharges, dynamic bed occupancy tracking, persistent file logging, and analytics.
 
 
 
