@@ -18,6 +18,9 @@ int main(void) {
 
     initializeSystem(bedOccupancy, queueCounts);
     loadBedStatusFromFile(bedOccupancy);
+    loadPatientRecordsFromFile(patientNames, patientAges, patientUrgencies, specialtyIDs,
+                               wardAdmitted, wardIDs, daysAdmitted, finalPayables,
+                               queueCounts, &patientCount);
 
     int choice;
     do {
@@ -41,6 +44,8 @@ int main(void) {
                                 wardAdmitted, wardIDs, daysAdmitted, finalPayables,
                                 bedOccupancy, queueCounts, &patientCount);
                 saveBedStatusToFile(bedOccupancy);
+                savePatientRecordsToFile(patientNames, patientAges, patientUrgencies, specialtyIDs,
+                                         wardAdmitted, wardIDs, daysAdmitted, finalPayables, patientCount);
                 pauseScreen();
                 break;
             case 2:
@@ -58,6 +63,9 @@ int main(void) {
                 pauseScreen();
                 break;
             case 5:
+                saveBedStatusToFile(bedOccupancy);
+                savePatientRecordsToFile(patientNames, patientAges, patientUrgencies, specialtyIDs,
+                                         wardAdmitted, wardIDs, daysAdmitted, finalPayables, patientCount);
                 printf("Exiting system. Data saved successfully.\n");
                 break;
             default:

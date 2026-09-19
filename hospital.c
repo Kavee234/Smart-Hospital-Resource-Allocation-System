@@ -47,9 +47,9 @@ void registerPatient(char names[][50], int ages[], int urgencies[], int specIDs[
     }
 
     int idx = *patientCount;
-    printf("\n====================================\n");
-    printf("-----   Patient Registration   -----\n");
-    printf("====================================\n");
+    printf("\n============================================\n");
+    printf("-------     Patient Registration     -------\n");
+    printf("============================================\n");
     printf("Enter Patient Name: ");
     scanf(" %[^\n]", names[idx]);
     printf("Enter Age: ");
@@ -190,12 +190,12 @@ void displayTriageList(char names[][50], int urgencies[], int patientCount) {
         }
     }
 
-    printf("\n=============================================================\n");
-    printf("----------      Emergency Triage Sorting List      ----------\n");
-    printf("=============================================================\n");
+    printf("\n=====================================================================\n");
+    printf("------------        Emergency Triage Sorting List        ------------\n");
+    printf("=====================================================================\n");
     for (int i = 0; i < patientCount; i++) {
         int idx = indices[i];
-        printf("Priority %d | Name: %-20s | Urgency Level: %d\n", i + 1, names[idx], urgencies[idx]);
+        printf("Priority %d | Name: %-30s | Urgency Level: %d\n", i + 1, names[idx], urgencies[idx]);
     }
 }
 
@@ -236,7 +236,6 @@ void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[
 
 void saveBedStatusToFile(int bedOccupancy[NUM_WARDS][20]) {
     FILE *fp = fopen("beds_status.txt", "w");
-    if (!fp) return;
     for (int i = 0; i < NUM_WARDS; i++) {
         for (int j = 0; j < WARD_CAPACITIES[i]; j++) {
             fprintf(fp, "%d ", bedOccupancy[i][j]);
@@ -257,4 +256,41 @@ void loadBedStatusFromFile(int bedOccupancy[NUM_WARDS][20]) {
     fclose(fp);
 }
 
+void savePatientRecordsToFile(char names[][50], int ages[], int urgencies[], int specIDs[],
+                              int wardAdmitted[], int wardIDs[], int daysAdmitted[],
+                              double finalPayables[], int patientCount) {
+    FILE *fp = fopen("patient_records.txt", "w");
+    if (!fp) return;
 
+    fprintf(fp, "%d\n", patientCount);
+    for (int i = 0; i < patientCount; i++) {
+        fprintf(fp, "%s|%d|%d|%d|%d|%d|%d|%.2f\n",
+                names[i], ages[i], urgencies[i], specIDs[i],
+                wardAdmitted[i], wardIDs[i], daysAdmitted[i], finalPayables[i]);
+    }
+    fclose(fp);
+}
+
+void loadPatientRecordsFromFile(char names[][50], int ages[], int urgencies[], int specIDs[],
+                              int wardAdmitted[], int wardIDs[], int daysAdmitted[],
+                              double finalPayables[], int queueCounts[NUM_SPECIALTIES], int *patientCount) {
+    FILE *fp = fopen("patient_records.txt", "r");
+    if (!fp) return;
+
+    if (fscanf(fp, "%d\n", patientCount) != 1) {
+        fclose(fp);
+        return;
+    }
+
+    for (int i = 0; i < *patientCount; i++) {
+        fscanf(fp, " %49[^|]|%d|%d|%d|%d|%d|%d|%lf\n",
+               names[i], &ages[i], &urgencies[i], &specIDs[i],
+               &wardAdmitted[i], &wardIDs[i], &daysAdmitted[i], &finalPayables[i]);
+
+        int sIdx = specIDs[i] - 1;
+        if (sIdx >= 0 && sIdx < NUM_SPECIALTIES) {
+            queueCounts[sIdx]++;
+        }
+    }
+    fclose(fp);
+}

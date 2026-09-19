@@ -30,4 +30,12 @@ void displayAnalytics(int urgencies[], double finalPayables[], int bedOccupancy[
 void saveBedStatusToFile(int bedOccupancy[NUM_WARDS][20]);
 void loadBedStatusFromFile(int bedOccupancy[NUM_WARDS][20]);
 
+void savePatientRecordsToFile(char names[][50], int ages[], int urgencies[], int specIDs[],
+                            int wardAdmitted[], int wardIDs[], int daysAdmitted[],
+                            double finalPayables[], int patientCount);
+
+void loadPatientRecordsFromFile(char names[][50], int ages[], int urgencies[], int specIDs[],
+                            int wardAdmitted[], int wardIDs[], int daysAdmitted[],
+                            double finalPayables[], int queueCounts[NUM_SPECIALTIES], int *patientCount);
+
 #endif
